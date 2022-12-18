@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8085
   servlet:
     context-path: /api
     encoding:
@@ -18,14 +18,6 @@ spring:
       ddl-auto: update
   h2:
     console:
-      enabled: true
+      enabled: false
       path: /h2-console
-      settings:
-        web-allow-others: true
 
-# ========= Logging ==========
-logging:
-  level:
-    root: ERROR
-    com:
-      yunus: DEBUG
