@@ -59,6 +59,11 @@
 			<artifactId>json-patch</artifactId>
 			<version>${json-patch.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.13</version>
+		</dependency>
 	</dependencies>
 
 	<build>
