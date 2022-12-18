@@ -3,7 +3,9 @@ package com.yunus.stockapi.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yunus.stockapi.entity.Stock;
+import com.yunus.stockapi.exception.NotFoundException;
 import com.yunus.stockapi.repository.StockRepository;
+import com.yunus.stockapi.util.Constants;
 import com.yunus.stockapi.util.JsonMergePatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +30,8 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public Stock retrieveStock(String id) {
-        return stockRepository.findById(id).get();
+        return stockRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format(Constants.NOT_FOUND_EXCEPTION_MESSAGE, id)));
     }
 
     @Override
@@ -38,8 +41,9 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public Stock updateStock(String id, Stock stock) throws JsonProcessingException {
-        Stock stockOld = stockRepository.findById(id).orElseThrow();
-        String serializedBody = objectMapper.writeValueAsString(stock);
+        Stock stockOld = stockRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format(Constants.NOT_FOUND_EXCEPTION_MESSAGE, id)));
+        String serializedBody = objectMapper.writeValueAsString(stockOld);
         Stock stockMerged = jsonMergePatcher.mergePatch(serializedBody, stock);
         return stockRepository.save(stockMerged);
     }

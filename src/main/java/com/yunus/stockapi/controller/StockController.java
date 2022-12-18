@@ -5,7 +5,9 @@ import com.yunus.stockapi.entity.Stock;
 import com.yunus.stockapi.service.StockService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +27,8 @@ public class StockController {
     @GetMapping("/stocks")
     public ResponseEntity<List<Stock>> listStock(@RequestParam(defaultValue = "0") int page,
                                                  @RequestParam(defaultValue = "10") int size,
-                                                 @RequestParam(defaultValue = "name,desc") String sort) {
-        Page<Stock> stock =  stockService.listStock(PageRequest.of(page, size, Sort.by(sort)));
+                                                 @SortDefault(sort = "name", direction = Sort.Direction.ASC)  Pageable pageable) {
+        Page<Stock> stock =  stockService.listStock(pageable);
         return new ResponseEntity<>(stock.getContent(), HttpStatus.OK);
     }
 
