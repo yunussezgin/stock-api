@@ -1,36 +1,58 @@
 package com.yunus.stockapi.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yunus.stockapi.entity.Stock;
+import com.yunus.stockapi.service.StockService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.List;
+
 @RestController
-@RequestMapping("/stocks")
 public class StockController {
 
-    @GetMapping
-    public ResponseEntity<Stock> getStock() {
-        return null;
+    private final StockService stockService;
+
+    public StockController(StockService stockService) {
+        this.stockService = stockService;
     }
 
-    @PostMapping
-    public ResponseEntity<Stock> saveStock() {
-        return null;
+    @GetMapping("/stocks")
+    public ResponseEntity<List<Stock>> listStock(@RequestParam(defaultValue = "0") int page,
+                                                 @RequestParam(defaultValue = "10") int size,
+                                                 @RequestParam(defaultValue = "name,desc") String sort) {
+        Page<Stock> stock =  stockService.listStock(PageRequest.of(page, size, Sort.by(sort)));
+        return new ResponseEntity<>(stock.getContent(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Stock> retrieveStock(@PathVariable String id) {
-        return null;
+    @PostMapping("/stocks")
+    public ResponseEntity<Stock> createStock(@Valid Stock stock) {
+        Stock stockSaved = stockService.createStock(stock);
+        return new ResponseEntity<>(stockSaved, HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Stock> updateStock(@PathVariable String id) {
-        return null;
+    @GetMapping("/stocks/{id}")
+    public ResponseEntity<Stock> retrieveStock(@PathVariable("id") String id) {
+        Stock stock = stockService.retrieveStock(id);
+        return new ResponseEntity<>(stock, HttpStatus.OK);
     }
 
-    @DeleteMapping ("/{id}")
-    public ResponseEntity<Stock> deleteStock(@PathVariable String id) {
-        return null;
+    @PatchMapping("/stocks/{id}")
+    public ResponseEntity<Stock> updateStock(@PathVariable("id") String id,
+                                             @Valid @RequestBody Stock stock) throws JsonProcessingException {
+        Stock stockUpdated = stockService.updateStock(id, stock);
+        return new ResponseEntity<>(stockUpdated, HttpStatus.OK);
+    }
+
+    @DeleteMapping ("/stocks/{id}")
+    public ResponseEntity<Void> deleteStock(@PathVariable("id") String id) {
+        stockService.deleteStock(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

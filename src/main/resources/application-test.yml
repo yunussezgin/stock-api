@@ -1,5 +1,5 @@
 server:
-  port: 8085
+  port: 8080
   servlet:
     context-path: /api
     encoding:
@@ -16,6 +16,7 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
+    defer-datasource-initialization: true
   h2:
     console:
       enabled: false

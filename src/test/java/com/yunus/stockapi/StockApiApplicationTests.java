@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,9 +25,6 @@ class StockApiApplicationTests {
 
 	@Autowired
 	private MockMvc mvc;
-
-	@Autowired
-	private StockRepository stockRepository;
 
 	@Test
 	void givenPageParams_whenListStock_thenReturnStocksSuccessfully() throws Exception {
@@ -49,7 +47,8 @@ class StockApiApplicationTests {
 
 	@Test
 	void givenStockId_whenRetrieveStock_thenReturnStockSuccessfully() throws Exception {
-		mvc.perform(get(TestConstants.STOCK_API_BASE_PATH + "/1"))
+		mvc.perform(get(TestConstants.STOCK_API_BASE_PATH + "/19a4af8c-8292-4798-b4f2-e769bb1b491c"))
+				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$", notNullValue()));
 	}
