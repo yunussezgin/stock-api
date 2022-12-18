@@ -3,6 +3,7 @@ package com.yunus.stockapi.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yunus.stockapi.entity.Stock;
+import com.yunus.stockapi.entity.StockUpdate;
 import com.yunus.stockapi.exception.NotFoundException;
 import com.yunus.stockapi.repository.StockRepository;
 import com.yunus.stockapi.util.Constants;
@@ -40,11 +41,11 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public Stock updateStock(String id, Stock stock) throws JsonProcessingException {
+    public Stock updateStock(String id, StockUpdate stock) throws JsonProcessingException {
         Stock stockOld = stockRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format(Constants.NOT_FOUND_EXCEPTION_MESSAGE, id)));
-        String serializedBody = objectMapper.writeValueAsString(stockOld);
-        Stock stockMerged = jsonMergePatcher.mergePatch(serializedBody, stock);
+        String serializedBody = objectMapper.writeValueAsString(stock);
+        Stock stockMerged = jsonMergePatcher.mergePatch(serializedBody, stockOld);
         return stockRepository.save(stockMerged);
     }
 

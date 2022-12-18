@@ -1,6 +1,7 @@
 package com.yunus.stockapi.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.validation.annotation.Validated;
@@ -16,9 +17,7 @@ import java.util.Currency;
 
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Validated
 public class Stock {

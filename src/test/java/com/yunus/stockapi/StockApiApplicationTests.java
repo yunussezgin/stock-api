@@ -1,7 +1,7 @@
 package com.yunus.stockapi;
 
 import com.yunus.stockapi.entity.Stock;
-import com.yunus.stockapi.repository.StockRepository;
+import com.yunus.stockapi.entity.StockUpdate;
 import com.yunus.stockapi.util.TestConstants;
 import com.yunus.stockapi.util.TestUtils;
 import org.junit.jupiter.api.Test;
@@ -40,9 +40,10 @@ class StockApiApplicationTests {
 		Stock stock = TestUtils.entityFromJsonFile(Stock.class, TestConstants.JSON_STOCK_FULL_PAYLOAD_CREATE_STOCK_SUCCESSFULLY_01);
 
 		mvc.perform(post(TestConstants.STOCK_API_BASE_PATH)
+						.header("Content-Type", TestConstants.JSON_CONTENT_TYPE_HEADER)
 						.content(TestUtils.asJsonString(stock)))
 				.andExpect(status().isCreated())
-				.andExpect(jsonPath("$.productCode", is("B09KCNSQYN")));
+				.andExpect(jsonPath("$.productCode", is("B09KCNSQYB")));
 	}
 
 	@Test
@@ -55,9 +56,10 @@ class StockApiApplicationTests {
 
 	@Test
 	void givenStock_whenUpdateStock_thenReturnUpdatedStockSuccessfully() throws Exception {
-		Stock stock = TestUtils.entityFromJsonFile(Stock.class, TestConstants.JSON_STOCK_PAYLOAD_UPDATE_STOCK_SUCCESSFULLY_01);
+		StockUpdate stock = TestUtils.entityFromJsonFile(StockUpdate.class, TestConstants.JSON_STOCK_PAYLOAD_UPDATE_STOCK_SUCCESSFULLY_01);
 
-		mvc.perform(patch(TestConstants.STOCK_API_BASE_PATH + "/1")
+		mvc.perform(patch(TestConstants.STOCK_API_BASE_PATH + "/1d06b6f0-4a0b-4c18-83a0-d96be6beea88")
+						.header("Content-Type", TestConstants.JSON_CONTENT_TYPE_HEADER)
 						.content(TestUtils.asJsonString(stock)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.currentPrice", is(100.00)));
@@ -65,7 +67,7 @@ class StockApiApplicationTests {
 
 	@Test
 	void givenStockId_whenDeleteStock_theDeleteStockSuccessfully() throws Exception {
-		mvc.perform(delete(TestConstants.STOCK_API_BASE_PATH + "/1"))
+		mvc.perform(delete(TestConstants.STOCK_API_BASE_PATH + "/096e8c09-b4eb-4c5d-b4b5-d60595408d35"))
 				.andExpect(status().isNoContent());
 	}
 

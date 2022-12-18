@@ -2,9 +2,9 @@ package com.yunus.stockapi.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yunus.stockapi.entity.Stock;
+import com.yunus.stockapi.entity.StockUpdate;
 import com.yunus.stockapi.service.StockService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
@@ -33,7 +33,7 @@ public class StockController {
     }
 
     @PostMapping("/stocks")
-    public ResponseEntity<Stock> createStock(@Valid Stock stock) {
+    public ResponseEntity<Stock> createStock(@Valid @RequestBody Stock stock) {
         Stock stockSaved = stockService.createStock(stock);
         return new ResponseEntity<>(stockSaved, HttpStatus.CREATED);
     }
@@ -46,7 +46,7 @@ public class StockController {
 
     @PatchMapping("/stocks/{id}")
     public ResponseEntity<Stock> updateStock(@PathVariable("id") String id,
-                                             @Valid @RequestBody Stock stock) throws JsonProcessingException {
+                                             @Valid @RequestBody StockUpdate stock) throws JsonProcessingException {
         Stock stockUpdated = stockService.updateStock(id, stock);
         return new ResponseEntity<>(stockUpdated, HttpStatus.OK);
     }
