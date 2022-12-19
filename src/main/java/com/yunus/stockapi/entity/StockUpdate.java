@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class StockUpdate {
+public class StockUpdate extends SubEntity {
 
     private String productCode;
 

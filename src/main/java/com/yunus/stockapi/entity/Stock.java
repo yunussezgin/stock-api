@@ -1,6 +1,7 @@
 package com.yunus.stockapi.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -20,7 +21,7 @@ import java.util.Currency;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Validated
-public class Stock {
+public class Stock extends SubEntity {
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -35,5 +36,4 @@ public class Stock {
 
     private BigDecimal currentPrice;
 
-    private LocalDateTime lastUpdate;
 }
