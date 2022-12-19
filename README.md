@@ -38,6 +38,14 @@ docker build --tag=stock-api:v0.0.1 .
 docker run -p8085:8085 stock-api:v0.0.1
 ```
 
+## Technical Details
+
+- Stock Service provides 5 endpoints to manage the stock.
+- All exceptions are handled by ExceptionHandler.
+- API was tested with integration and unit tests.
+- OpenAPI was integrated into the API.
+- DockerFile was added to the project.
+
 ## Postman Collection
 
 [src/main/resources/postmancollection/](src/main/resources/postmancollection/)
