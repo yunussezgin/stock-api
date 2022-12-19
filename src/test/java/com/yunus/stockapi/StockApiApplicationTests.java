@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -72,7 +71,18 @@ class StockApiApplicationTests {
 						.content(TestUtils.asJsonString(stock)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.id", is("1d06b6f0-4a0b-4c18-83a0-d96be6beea88")))
+				.andExpect(jsonPath("$.productCode", is("B09KCNSQYH")))
+				.andExpect(jsonPath("$.name", is("Russell Hobbs Cook Egg Cooker")))
 				.andExpect(jsonPath("$.currentPrice", is(100.00)));
+	}
+
+	@Test
+	void givenStock_whenUpdateStockWithDuplicateProductCode_thenReturnUpdatedStockUnSuccessfully() throws Exception {
+		StockUpdate stock = TestUtils.entityFromJsonFile(StockUpdate.class, TestConstants.JSON_STOCK_PAYLOAD_UPDATE_STOCK_UNSUCCESSFULLY_01);
+
+		mvc.perform(patch(TestConstants.STOCK_API_BASE_PATH + "/1d06b6f0-4a0b-4c18-83a0-d96be6beea88")
+						.content(TestUtils.asJsonString(stock)))
+				.andExpect(status().isInternalServerError());
 	}
 
 	@Test
