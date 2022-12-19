@@ -10,4 +10,6 @@ public class Constants {
 
     public static final String NOT_FOUND_EXCEPTION_MESSAGE = "Stock with id:%s not found!";
 
+    public static final String EXCEPTION_PREFIX = "Stock service exception occurred -> ";
+
 }

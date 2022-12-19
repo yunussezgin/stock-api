@@ -14,21 +14,21 @@ public class ExceptionHandlingController {
 
     @ExceptionHandler({BadRequestException.class})
     public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException e) {
-        log.error("Stock service exception occurred -> BadRequestException: {}", e.getMessage());
+        log.error(Constants.EXCEPTION_PREFIX.concat("BadRequestException: {}"), e.getMessage());
         ErrorResponse exceptionResponse = generateExceptionResponse(Constants.BAD_REQUEST_CODE, e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
     }
 
     @ExceptionHandler({NotFoundException.class})
     public ResponseEntity<ErrorResponse> handleNotFoundValidationException(NotFoundException e) {
-        log.error("Stock service exception occurred -> NotFoundException: {}", e.getMessage());
+        log.error(Constants.EXCEPTION_PREFIX.concat("NotFoundException: {}"), e.getMessage());
         ErrorResponse exceptionResponse = generateExceptionResponse(Constants.NOT_FOUND, e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
     }
 
     @ExceptionHandler({RuntimeException.class, Exception.class})
     public ResponseEntity<ErrorResponse> otherExceptions(Exception e) {
-        log.error("Stock service exception occurred -> RuntimeException: {}", ExceptionUtils.getMessage(e));
+        log.error(Constants.EXCEPTION_PREFIX.concat("RuntimeException: {}"), ExceptionUtils.getMessage(e));
         ErrorResponse exceptionResponse = generateExceptionResponse(Constants.INTERNAL_SERVER_ERROR_CODE, ExceptionUtils.getMessage(e));
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse);
     }

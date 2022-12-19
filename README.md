@@ -49,7 +49,7 @@ docker run -p8085:8085 stock-api:v0.0.1
 - Username: test
 - Password: test
 
-## Swagger UI URL
+## OpenAPI URL
 
 http://localhost:8085/api/swagger-ui/index.html
 
@@ -157,6 +157,7 @@ http://localhost:8085/api/swagger-ui/index.html
 
 <b>DELETE</b> /api/stocks/19a4af8c-8292-4798-b4f2-e769bb1b491c
 
+`RESPONSE`
 ```
 204 No Content
 ```
