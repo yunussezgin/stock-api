@@ -25,10 +25,8 @@ public class StockController {
     }
 
     @GetMapping("/stocks")
-    public ResponseEntity<List<Stock>> listStock(@RequestParam(defaultValue = "0") int page,
-                                                 @RequestParam(defaultValue = "10") int size,
-                                                 @SortDefault(sort = "name", direction = Sort.Direction.ASC)  Pageable pageable) {
-        Page<Stock> stock =  stockService.listStock(pageable);
+    public ResponseEntity<List<Stock>> listStock(@SortDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
+        Page<Stock> stock = stockService.listStock(pageable);
         return new ResponseEntity<>(stock.getContent(), HttpStatus.OK);
     }
 
@@ -51,7 +49,7 @@ public class StockController {
         return new ResponseEntity<>(stockUpdated, HttpStatus.OK);
     }
 
-    @DeleteMapping ("/stocks/{id}")
+    @DeleteMapping("/stocks/{id}")
     public ResponseEntity<Void> deleteStock(@PathVariable("id") String id) {
         stockService.deleteStock(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
